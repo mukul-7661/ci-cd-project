@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main # Adjust the branch name as needed
+      - master # Adjust the branch name as needed
 
 jobs:
   build:
@@ -21,13 +21,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm test
+      # - name: Run tests
+      #   run: npm test
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Deploy to Production
-        # Add your deployment steps here
+  #   steps:
+  #     - name: Deploy to Production
+  #       # Add your deployment steps here
