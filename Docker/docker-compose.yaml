@@ -1,0 +1,43 @@
+# version: "3"
+
+# secrets:
+#   host_ssh_key:
+#     file: ~/.ssh/id_rsa
+
+# services:
+#   cement:
+#     container_name: cement_docker
+#     network_mode: "host"
+#     privileged: true
+#     restart: always
+
+#     volumes:
+#       - /etc/timezone:/etc/timezone
+#       - /etc/localtime:/etc/localtime
+#       - ..:/cement-offline-backend
+#       - type: bind
+#         source: /dev/bus/usb
+#         target: /dev/bus/usb
+#         bind:
+#           propagation: shared
+
+#     secrets:
+#       - host_ssh_key
+
+#     build:
+#       context: .
+#       args:
+#         - ssh_prv_key
+#         - ssh_pub_key
+
+#     deploy:
+#       resources:
+#         reservations:
+#           devices:
+#             - driver: nvidia
+#               count: 1
+#               capabilities: [gpu]
+
+#     working_dir: /ci-cd-project
+
+#     command: ./masterStarter.bash
