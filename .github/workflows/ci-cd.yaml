@@ -19,6 +19,21 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker tag ci-cd-project:latest mukul7661/ci-cd-project
           docker push mukul7661/ci-cd-project
+      - name: SSH into EC2 instance and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }} # IP address or hostname of your EC2 instance
+          username: ubuntu # The SSH username for your EC2 instance
+          key: ${{ secrets.EC2_PRIVATE_KEY }} # Your private SSH key, stored as a GitHub secret
+          script: |
+            ssh_options="-o StrictHostKeyChecking=no"
+            ssh $ssh_options ec2-user@${{ secrets.EC2_HOST }} << EOF
+              docker stop ci-cd || true
+              docker rm ci-cd || true
+              docker pull mukul7661/ci-cd-project:latest
+              docker run -d --name ci-cd -p 8080:8000 mukul7661/ci-cd-project:latest
+              # Add any other commands you need to run on the server here
+            EOF
 
       # - name: Run tests
       #   run: npm test
