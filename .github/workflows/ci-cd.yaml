@@ -32,10 +32,17 @@ jobs:
       - name: Set up SSH key
         run: |
           touch private_key
-          ls
           echo "${{ secrets.EC2_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_HOST }}
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_HOST }} '
+          docker stop ci-cd || true
+          docker rm ci-cd || true
+          docker pull mukul7661/ci-cd-project:latest
+          docker run -d --env-file myenv.env --name ci-cd -p 8080:8000 mukul7661/ci-cd-project:latest
+          '
+
+
+
           # ssh-keyscan -t rsa $EC2_HOST >> ~/.ssh/known_hosts
           # chmod 644 ~/.ssh/known_hosts
           # echo
