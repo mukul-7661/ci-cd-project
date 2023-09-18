@@ -48,7 +48,7 @@ jobs:
           script: |
             # ls
             ssh_options="-o StrictHostKeyChecking=no"
-            ssh $ssh_options -i ubuntu@${{ secrets.EC2_HOST }} << EOF
+            ssh $ssh_options ubuntu@${{ secrets.EC2_HOST }} << EOF
               docker stop ci-cd || true
               docker rm ci-cd || true
               docker pull mukul7661/ci-cd-project:latest
