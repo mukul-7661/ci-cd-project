@@ -27,8 +27,9 @@ RUN git clone https://github.com/mukul7661/ci-cd-project.git
 
 WORKDIR /ci-cd-project
 RUN git checkout master
+RUN git pull
 RUN yarn
-# RUN chmod +x *.bash
+RUN chmod +x *.bash
 # RUN yarn start
 
 
@@ -36,6 +37,6 @@ RUN yarn
 
 # RUN git config --global --add safe.directory /ci-cd-project
 
-CMD ["/start-app.bash"]
+CMD ["/ci-cd-project/start-app.bash"]
 
 # CMD ["sleep","infinity"]

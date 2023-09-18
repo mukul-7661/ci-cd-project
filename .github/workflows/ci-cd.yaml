@@ -6,28 +6,19 @@ on:
       - master # Adjust the branch name as needed
 
 jobs:
-  build:
+  build and deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Install dependencies
-        run: npm install
+        - name: Build and push Docker image
+        run: |
+          docker build -t ci-cd-project .
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker tag ci-cd-project:latest mukul7661/ci-cd-project
+          docker push mukul7661/ci-cd-project
 
       # - name: Run tests
       #   run: npm test
-
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Deploy to Production
-  #       # Add your deployment steps here
