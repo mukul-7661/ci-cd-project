@@ -47,14 +47,15 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }} # Your private SSH key, stored as a GitHub secret
           script: |
             # ls
-            ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_HOST }} << EOF
-              ls
-              docker stop ci-cd || true
-              docker rm ci-cd || true
-              docker pull mukul7661/ci-cd-project:latest
-              docker run -d --env-file myenv.env --name ci-cd -p 8080:8000 mukul7661/ci-cd-project:latest
-              # Add any other commands you need to run on the server here
-            EOF
+            ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_HOST }} 
+            # << EOF
+            #   ls
+            #   docker stop ci-cd || true
+            #   docker rm ci-cd || true
+            #   docker pull mukul7661/ci-cd-project:latest
+            #   docker run -d --env-file myenv.env --name ci-cd -p 8080:8000 mukul7661/ci-cd-project:latest
+            #   # Add any other commands you need to run on the server here
+            # EOF
 
       # - name: Run tests
       #   run: npm test
