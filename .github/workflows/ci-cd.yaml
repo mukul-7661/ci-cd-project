@@ -38,7 +38,7 @@ jobs:
           docker stop ci-cd || true
           docker rm -f ci-cd || true
           docker pull mukul7661/ci-cd-project:latest
-          docker run -d --env-file myenv.env --name ci-cd -p 8080:8000 mukul7661/ci-cd-project:latest
+          docker run -d --env-file myenv.env --name ci-cd -p 80:8000 mukul7661/ci-cd-project:latest
           '
 
 
