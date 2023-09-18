@@ -32,10 +32,11 @@ jobs:
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo ${{ secrets.EC2_PRIVATE_KEY }} > private_key
+          chmod 600 private_key
           # ssh-keyscan -t rsa $EC2_HOST >> ~/.ssh/known_hosts
           # chmod 644 ~/.ssh/known_hosts
+          echo
 
       - name: SSH into EC2 instance and deploy
         uses: appleboy/ssh-action@master
@@ -45,7 +46,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }} # Your private SSH key, stored as a GitHub secret
           script: |
             ssh_options="-o StrictHostKeyChecking=no"
-            ssh $ssh_options ubuntu@${{ secrets.EC2_HOST }} << EOF
+            ssh $ssh_options -i private_key ubuntu@${{ secrets.EC2_HOST }} << EOF
               docker stop ci-cd || true
               docker rm ci-cd || true
               docker pull mukul7661/ci-cd-project:latest
